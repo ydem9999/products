@@ -1,5 +1,6 @@
 import os# operating system
 
+#Load file
 products = []
 
 if os.path.isfile('products.csv'):#check file
