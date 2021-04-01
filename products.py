@@ -1,40 +1,53 @@
 import os# operating system
-
-#Load file
-products = []
-
-if os.path.isfile('products.csv'):#check file
-	print('Yes, file found.')
-	with open('products.csv', 'r') as f:
+def read_file(filename):
+	products = []
+	with open(filename, 'r') as f:
 		for line in f:
 			if 'Products,Price' in line:
 				continue
-		name, price = line.strip().split(',')
-		products.append([name, price])
-	print(products)
-else:
-	print('No, file not found.')
-
-
+			name, price = line.strip().split(',')
+			products.append([name, price])
+	return products
 
 #User input
-while True:
-	name = input('please enter product name:')
-	if name == 'q':
-		break
-	price = input('Please enter product price:')
-#	p = []
-#	p.append(name)
-#	p.append(price)
-	products.append([name,price])
-print(products)
+def user_input(products):
+	while True:
+		name = input('please enter product name:')
+		if name == 'q':
+			break
+		price = input('Please enter product price:')
+	#	p = []
+	#	p.append(name)
+	#	p.append(price)
+		products.append([name,price])
+	print(products)
+	return products
 
 #Print all purchase history
-for p in products:
-	print('Price of', p[0], 'is', p[1])
+def print_products(products):
+	for p in products:
+		print('Price of', p[0], 'is', p[1])
 
 #Write records
-with open('products.csv', 'w') as f:
-	f.write('Products,Price\n')
-	for p in products:
-		f.write(p[0] + ',' + p[1] + '\n')
+def write_file(filename, products):
+	with open(filename, 'w') as f:
+		f.write('Products,Price\n')
+		for p in products:
+			f.write(p[0] + ',' + p[1] + '\n')
+
+
+def main():
+	filename = 'products.csv'
+	if os.path.isfile(filename):#check file
+		print('Yes, file found.')
+		products = read_file(filename)
+	else:
+		print('File not found.')
+
+	products = user_input(products)
+	print_products(products)
+	write_file('products.csv', products)
+
+
+
+main()
